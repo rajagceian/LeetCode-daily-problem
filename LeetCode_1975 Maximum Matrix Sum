@@ -1,0 +1,22 @@
+//1975. Maximum Matrix Sum
+class Solution {
+public:
+    long long maxMatrixSum(vector<vector<int>>& matrix) {
+        int n=matrix.size();
+        int no_of_negNum=0;
+        long long ans=0;
+        int min_ele=INT_MAX;
+        for(auto &row : matrix){
+            for(auto &col : row){
+                if(col<0) {
+                col=abs(col);
+                no_of_negNum++;
+            }
+            min_ele=min(min_ele,col);
+            ans+=col;
+            }
+        }
+     if(no_of_negNum%2) ans-=2*min_ele;
+     return ans;
+    }
+};
