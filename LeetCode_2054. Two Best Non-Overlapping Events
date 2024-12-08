@@ -1,0 +1,26 @@
+//2054. Two Best Non-Overlapping Events
+class Solution {
+    struct cmp{
+        bool operator()(const vector<int> &a, const vector<int> &b){
+            return a[1] > b[1];
+        }
+    };
+public:
+    int maxTwoEvents(vector<vector<int>>& events) {
+        ios_base::sync_with_stdio(false);
+
+        sort(events.begin(), events.end());
+        priority_queue<vector<int>, vector<vector<int>>, cmp> pQ;
+        int res = 0;
+        int max_so_far = 0;
+        for(const vector<int> &event: events){
+            while(!pQ.empty() && pQ.top()[1] < event[0]) { 
+                max_so_far = max(max_so_far, pQ.top()[2]);
+                pQ.pop();
+            }
+            res = max(res, max_so_far + event[2]);
+            pQ.push(event);
+        }
+        return res;
+    }
+};
