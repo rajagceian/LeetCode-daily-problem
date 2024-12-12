@@ -1,0 +1,16 @@
+//2558. Take Gifts From the Richest Pile
+class Solution {
+public:
+    long long pickGifts(vector<int>& gifts, int k) {
+       int n=gifts.size();
+       while(k--){
+        int ele=max_element(gifts.begin(),gifts.end())-gifts.begin();
+        gifts[ele]=sqrt(gifts[ele]);
+       }
+       long long sum=0;
+       for(int ele : gifts){
+        sum+=ele;
+       }
+       return sum;
+    }
+};
