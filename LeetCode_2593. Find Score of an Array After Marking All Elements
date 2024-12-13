@@ -1,0 +1,31 @@
+//2593. Find Score of an Array After Marking All Elements
+class Solution {
+public:
+    long long findScore(vector<int>& nums) {
+        int n = nums.size();
+        vector<bool> isMarked(n, false); // Keep track of marked indices
+        long long ans = 0;
+
+        // Create a vector of pairs (value, index) and sort it by value
+        vector<pair<int, int>> indexedNums;
+        for (int i = 0; i < n; i++) {
+            indexedNums.push_back({nums[i], i});
+        }
+        sort(indexedNums.begin(), indexedNums.end());
+
+        for (auto& [value, idx] : indexedNums) {
+            // If the current index is already marked, skip it
+            if (isMarked[idx]) continue;
+
+            // Add the value to the score
+            ans += value;
+
+            // Mark the current index and its neighbors
+            isMarked[idx] = true;
+            if (idx > 0) isMarked[idx - 1] = true;
+            if (idx < n - 1) isMarked[idx + 1] = true;
+        }
+
+        return ans;
+    }
+};
