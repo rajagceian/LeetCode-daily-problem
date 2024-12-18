@@ -1,0 +1,15 @@
+//1475. Final Prices With a Special Discount in a Shop
+class Solution {
+public:
+    vector<int> finalPrices(vector<int>& prices) {
+       vector <int> ans=prices;
+       stack <int> st;
+       st.push(prices[prices.size()-1]);
+       for(int i=prices.size()-2;i>=0;i--){
+        while(st.size()>0 && st.top()>prices[i]) st.pop();
+        if(st.size()!=0) ans[i]=prices[i]-st.top();
+        st.push(prices[i]);
+       } 
+       return ans;
+    }
+};
