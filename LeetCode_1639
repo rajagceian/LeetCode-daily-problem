@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int numWays(vector<string>& words, string target) {
+        const int MOD = 1'000'000'007;
+        int m = target.size();
+        int n = words[0].size();
+
+        // Preprocess: Frequency of characters in each column
+        vector<vector<int>> count(n, vector<int>(26, 0));
+        for (const string& word : words) {
+            for (int i = 0; i < n; ++i) {
+                count[i][word[i] - 'a']++;
+            }
+        }
+
+        // dp[j] represents the number of ways to form target[j:]
+        vector<long long> dp(m + 1, 0);
+        dp[0] = 1; // Base case: 1 way to form an empty target
+
+        // Iterate through each column in words
+        for (int i = 0; i < n; ++i) {
+            for (int j = m - 1; j >= 0; --j) { // Traverse target in reverse
+                int charIndex = target[j] - 'a';
+                dp[j + 1] = (dp[j + 1] + dp[j] * count[i][charIndex]) % MOD;
+            }
+        }
+
+        return dp[m];
+    }
+};
