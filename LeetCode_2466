@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int countGoodStrings(int low, int high, int zero, int one) {
+        const int MOD = 1'000'000'007;
+
+        // DP array to store the number of good strings of length i
+        vector<int> dp(high + 1, 0);
+        dp[0] = 1; // Base case: One way to form an empty string
+
+        // Compute dp array for all lengths from 1 to high
+        for (int length = 1; length <= high; ++length) {
+            if (length >= zero) {
+                dp[length] = (dp[length] + dp[length - zero]) % MOD; // Add strings ending with '0'
+            }
+            if (length >= one) {
+                dp[length] = (dp[length] + dp[length - one]) % MOD; // Add strings ending with '1'
+            }
+        }
+
+        // Sum up the counts for lengths between low and high
+        int result = 0;
+        for (int length = low; length <= high; ++length) {
+            result = (result + dp[length]) % MOD;
+        }
+
+        return result; // Return the total count modulo 1_000_000_007
+    }
+};
