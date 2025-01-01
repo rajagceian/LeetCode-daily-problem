@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int maxScore(string &s) {
+        int n = s.length();
+        vector<int> cntZero(n, 0);
+        vector<int> cntOne(n, 0);
+        int count = 0;
+
+        // Count '0's from the start
+        for (int i = 0; i < n; i++) {
+            if (s[i] == '0') count++;
+            cntZero[i] = count;
+        }
+
+        // Count '1's from the end
+        count = 0;
+        for (int i = n - 1; i >= 0; i--) {
+            if (s[i] == '1') count++;
+            cntOne[i] = count;
+        }
+
+        // Calculate maximum score
+        int score = 0;
+        for (int i = 0; i < n - 1; i++) {
+            score = max(score, cntZero[i] + cntOne[i + 1]);
+        }
+
+        return score;
+    }
+};
