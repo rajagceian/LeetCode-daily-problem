@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int countPalindromicSubsequence(string s) {
+    int n = s.size();
+        int cnt = 0;
+        vector<int> left(26, INT_MAX);
+        vector<int> right(26, INT_MIN);
+        vector<int> arr(26, 0); 
+        for (int i = 0; i < n; i++) {
+            int idx = s[i] - 'a';
+            left[idx] = min(left[idx], i);
+            right[idx] = max(right[idx], i);
+            arr[idx]++;
+        }
+        for (int i = 0; i < 26; i++) {
+            if (arr[i] == 0) continue; 
+            int cntChk = 0;
+            vector<int> arrChar(26, 0);       
+            for (int j = left[i] + 1; j < right[i]; j++) {
+                int idx = s[j] - 'a';        
+                if (arrChar[idx] == 1 || i == idx) continue;
+                if (cntChk == 25) break; 
+                arrChar[idx] = 1;                    
+                cntChk++;                
+            }
+            cnt += cntChk;
+        }
+        for (int i = 0; i < 26; i++) {
+            if (arr[i] >= 3) cnt++;
+        }
+        return cnt;
+    }
+};
