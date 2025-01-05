@@ -1,0 +1,40 @@
+/* ------------------------------------- Brute Force (TLE shown)------------------------------------ */
+    string shiftingLetters(string s, vector<vector<int>>& shifts) {
+        int n=shifts.size();
+      for(int i=0;i<n;i++){
+        for(int j=shifts[i][0];j<=shifts[i][1];j++){
+            if(shifts[i][2]==0){
+            s[j]--;
+            if(s[j]<97) s[j]='z';
+        } else{
+            s[j]++;
+            if(s[j]>122) s[j]='a';
+        }
+        }
+      }
+      return s;  
+    }
+
+/* -------------------------------------------Optimized Solution ------------------------------------ */
+string shiftingLetters(string s, vector<vector<int>>& shifts) {
+    int n = s.size();
+    vector<int> diff(n + 1, 0);
+    // Step 1: Apply the shifts to the difference array
+    for (const auto& shift : shifts) {
+        int start = shift[0];
+        int end = shift[1];
+        int direction = shift[2] == 0 ? -1 : 1;
+
+        diff[start] += direction;
+        diff[end + 1] -= direction;
+    }
+    // Step 2: Compute the prefix sum to get the net shift for each character
+    int netShift = 0;
+    for (int i = 0; i < n; ++i) {
+        netShift += diff[i];
+        int shift = (s[i] - 'a' + netShift) % 26; // Calculate new character
+        if (shift < 0) shift += 26;              // Handle negative shift
+        s[i] = 'a' + shift;
+    }
+    return s;
+}
