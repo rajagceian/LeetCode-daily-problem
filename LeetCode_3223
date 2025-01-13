@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int minimumLength(string s) {
+        int len = s.length();
+        if(len<3) return len;
+        int ans=0;
+        vector <int> freq(26);
+        for(char c : s) freq[c-'a']++;
+
+        for(int f : freq){
+            if(f==0) continue;
+            if(f%2==0) ans+=2;
+            else ans+=1;
+        }
+        return ans;
+    }
+};
