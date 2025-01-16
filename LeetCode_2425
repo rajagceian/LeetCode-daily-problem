@@ -1,0 +1,19 @@
+class Solution {
+public:
+   /* he XOR operation is not affected by the order of elements in an array. XOR (exclusive OR) is a commutative and associative operation */
+    int xorAllNums(vector<int>& nums1, vector<int>& nums2) {
+        int n1=nums1.size();
+        int n2=nums2.size();
+        if(n1%2==0 && n2%2==0) return 0;  // freq of each element is even means XOR operation 0.
+
+        int xor1 =nums1[0];
+        for(int i=1;i<n1;i++) xor1^=nums1[i];
+
+        int xor2 =nums2[0];
+        for(int i=1;i<n2;i++) xor2^=nums2[i];
+
+        if(n1%2==0) return xor1;  // one is in even length and another is in odd length then, odd length element after forming pair they will be available in even freq means XOR operation is 0 ... So we choose even length array
+        else if(n2%2==0) return xor2;
+        return xor1^xor2;
+    }
+};
