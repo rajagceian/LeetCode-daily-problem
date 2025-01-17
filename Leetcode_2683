@@ -1,0 +1,15 @@
+
+
+/*  using x=y⊕z ⟺ x⊕y=y⊕z⊕y=z concept,,, by which I got one finel equation which LHS was derived[0] and RHS , XOR operations of remainning ele of derived arr .... return LHS == RHS */
+class Solution {
+public:
+    bool doesValidArrayExist(vector<int>& derived) {
+        int n=derived.size();
+        int first_ele = derived[0];
+        int xor_op=0; 
+        for(int i=1;i<n;i++){
+            xor_op ^=derived[i];
+        }
+        return first_ele == xor_op;
+    }
+};
