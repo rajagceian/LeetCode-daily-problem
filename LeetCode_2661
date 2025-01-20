@@ -1,0 +1,88 @@
+******* Brute Force   ****** Show TLE *****
+
+class Solution {
+public:
+ vector <int> whereIs(vector<vector<int>>& mat,int tgt){
+    int m=mat.size();
+    int n=mat[0].size();
+    for(int i=0;i<m;i++){
+        for(int j=0;j<n;j++){
+            if(mat[i][j]==tgt) return {i,j};
+        }
+    }
+    return {};
+ }
+ bool isPainted(vector <int> &sum){
+    int n=sum.size();
+    for(int i=0;i<n;i++){
+        if(sum[i]==0) return true;
+    }
+    return false;
+ }
+    int firstCompleteIndex(vector<int>& arr, vector<vector<int>>& mat) {
+       int len=arr.size();
+        int m=mat.size();
+        int n=mat[0].size();
+        vector <int> sum(m+n);
+        // for row wise sum
+        for(int i=0;i<m;i++){
+            int currSum=0;
+            for(int j=0;j<n;j++){
+                currSum+=mat[i][j];
+            }
+            sum[i]=currSum;
+        }
+
+        // for col wise sum
+        for(int i=0;i<n;i++){
+            int currSum=0;
+            for(int j=0;j<m;j++){
+                currSum+=mat[j][i];
+            }
+            sum[m+i]=currSum;
+        }
+       
+       // Time to paint
+       for(int i=0;i<len;i++){
+        vector <int> idx=whereIs(mat,arr[i]);
+        sum[idx[0]]-=arr[i];
+        sum[m+idx[1]]-=arr[i];
+        mat[idx[0]][idx[1]]=0; // painted
+        if(isPainted(sum)) return i;
+       }
+       return (m*n)-1;
+    }
+};
+
+*******************************************   Optimized approach *************
+
+class Solution {
+public:
+    int firstCompleteIndex(vector<int>& arr, vector<vector<int>>& mat) {
+        int m = mat.size();
+        int n = mat[0].size();
+        unordered_map<int, pair<int, int>> pos; // Maps each element to its (row, col) position
+        vector<int> rowPainted(m, 0), colPainted(n, 0); // Track painted counts for rows and columns
+
+        // Preprocess to map each matrix element to its position
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                pos[mat[i][j]] = {i, j};
+            }
+        }
+
+        // Process each element in `arr`
+        for (int i = 0; i < arr.size(); i++) {
+            auto [r, c] = pos[arr[i]]; // Get the position of the current element
+            rowPainted[r]++; // Increment painted count for the row
+            colPainted[c]++; // Increment painted count for the column
+
+            // Check if the row or column is fully painted
+            if (rowPainted[r] == n || colPainted[c] == m) {
+                return i;
+            }
+        }
+
+        return -1; // Should not reach here as a complete row or column is guaranteed
+    }
+};
