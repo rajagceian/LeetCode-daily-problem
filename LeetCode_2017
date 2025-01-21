@@ -1,0 +1,18 @@
+class Solution {
+public:
+    long long gridGame(vector<vector<int>>& grid) {
+        long long ans=LONG_MAX;
+        int n=grid[0].size();
+        long long upperRowSum = 0;
+        for(int i=0;i<n;i++) upperRowSum +=grid[0][i];
+
+        long long lowerSum=0;
+        for(int i=0;i<n;i++){
+             upperRowSum -= grid[0][i];
+            if(i>0) lowerSum += grid[1][i-1];
+            long long currScore = max(upperRowSum , lowerSum);
+            ans = min(ans , currScore);
+        }
+        return ans;
+    }
+};
