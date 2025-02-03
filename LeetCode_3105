@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int subArrayInc(vector <int> &nums){
+        int long_Inc_Subarray=INT_MIN;
+        int n=nums.size();
+        for(int i=0;i<n;i++){
+            int subArray=1;
+            for(int j=i+1;j<n;j++){
+                if(nums[j-1]<nums[j]) subArray++;
+                else break;
+            }
+            long_Inc_Subarray=max(long_Inc_Subarray,subArray);
+        }
+        return long_Inc_Subarray;
+    }
+
+    int subArrayDec(vector <int> &nums){
+        int long_Dec_Subarray=INT_MIN;
+        int n=nums.size();
+        for(int i=0;i<n;i++){
+            int subArray=1;
+            for(int j=i+1;j<n;j++){
+                if(nums[j-1]>nums[j]) subArray++;
+                else break;
+            }
+            long_Dec_Subarray=max(long_Dec_Subarray,subArray);
+        }
+        return long_Dec_Subarray;
+    }
+    int longestMonotonicSubarray(vector<int>& nums) {
+        return max(subArrayInc(nums) , subArrayDec(nums));
+    }
+};
