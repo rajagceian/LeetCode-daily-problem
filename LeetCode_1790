@@ -1,0 +1,21 @@
+class Solution {
+public:
+    bool areAlmostEqual(string s1, string s2) {
+        if(s1 == s2) return true;
+        int len = s1.length();
+        vector <int> isAvail(26,0);
+        for(int i=0;i<len;i++){
+            isAvail[s1[i]-'a']++;
+        }
+        for(int i=0;i<len;i++){
+            if(!isAvail[s2[i]-'a']) return false;
+            else isAvail[s2[i]-'a']--;
+        }
+
+        int wrongIdx = 0;
+        for(int i=0;i<len;i++){
+            if(s1[i] != s2[i]) wrongIdx++;
+        }
+        return wrongIdx == 2;
+    }
+};
