@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int tupleSameProduct(vector<int>& nums) {
+       sort(nums.begin(),nums.end());
+       int n=nums.size();
+       int size = nums[n-1] * nums[n-2];
+       vector <int> product(size+1 , 0);
+       for(int i=0;i<n-1;i++){
+        for(int j=i+1;j<n;j++){
+            product[nums[i]*nums[j]]++;
+        }
+       }
+       int ans=0;
+       for(int i=0;i<size+1;i++){
+        if(product[i]>=2){
+          int temp = product[i];
+          int pair = (temp * (temp - 1)) / 2;
+          ans += 8 * pair;
+        }
+       }
+       return ans;
+    }
+};
