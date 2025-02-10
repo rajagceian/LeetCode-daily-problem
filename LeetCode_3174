@@ -1,0 +1,29 @@
+class Solution {
+public:
+    string clearDigits(string s) {
+        int l = s.length();
+        stack <char> st;
+        int i=0;
+        while(i<l){
+            if(!st.size()) st.push(s[i]);
+            else if((97 <= st.top() && st.top()<= 122) && (48 <= s[i] && s[i] <= 57)){
+                st.pop();
+                
+            }
+             else if((97 <= s[i] && s[i]<= 122) && (48 <= st.top() && st.top() <= 57)){
+                st.pop();
+               
+            } 
+            else st.push(s[i]);
+            i++;
+        }
+        if(!st.size()) return "";
+        s="";
+        while(st.size()){
+            s += st.top();
+            st.pop();
+        }
+        reverse(s.begin(),s.end());
+        return s;
+    }
+};
