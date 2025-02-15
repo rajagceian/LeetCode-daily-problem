@@ -1,0 +1,30 @@
+class Solution {
+public:
+    bool isPartition(int j,string i2 , int i , int currSum){
+       int n = i2.length();
+        // base case
+        if(j == n){
+            return (currSum == i);
+        }
+        if(currSum > i){
+            return false;
+        }
+        for(int index=j;index<n;index++){
+            int val = stoi(i2.substr(j,index-j+1));
+            if(isPartition(index+1,i2,i,currSum+val)){
+                return true;
+            }
+        }
+        return false;
+    }
+    int punishmentNumber(int n) {
+        int ans = 0;
+        for(int i=1;i<=n;i++){
+            string nSquare = to_string(i*i);
+            if(isPartition(0,nSquare,i,0)) {
+                ans+=(i*i);
+            }
+        }
+        return ans;
+    }
+};
