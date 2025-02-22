@@ -1,0 +1,37 @@
+class Solution {
+public:
+    // bool isdigit(char c){ // isdigit() is an also inbuilt function.
+    //     if(c == '-') return false;
+    //     return true;
+    // }
+    TreeNode* solve(string &s,int &i,int depth,int n){
+       if(i>=n) return nullptr;
+       
+       int j=i;
+       while(j<n && s[j]=='-'){
+        j++;
+       }
+       int dash = j-i;
+       if(dash != depth){
+        return nullptr;
+       }
+
+       i += dash;
+       long num = 0; // node->val can be double,triple... digits number
+       while(i<n && isdigit(s[i])){
+            num = (num * 10) + (s[i] - '0');
+            i++;
+       }
+
+       TreeNode* root = new TreeNode(num);
+       root->left = solve(s,i,depth+1,n);
+       root->right = solve(s,i,depth+1,n);
+
+       return root;
+    }
+    TreeNode* recoverFromPreorder(string traversal) {
+         int n = traversal.length();
+         int idx=0;
+        return solve(traversal,idx,0,n);
+    }
+};
