@@ -1,0 +1,37 @@
+class Solution {
+public:
+    TreeNode* helper(vector<int>& pre, int preLo, int preHi, vector<int>& post, int postLo, int postHi) {
+        // Base case: if the range is invalid, return nullptr
+        if (preLo > preHi || postLo > postHi)
+            return nullptr;
+        
+        // Create the root node with the first value in preorder
+        TreeNode* root = new TreeNode(pre[preLo]);
+        
+        // If there's only one node in the current range, return it
+        if (preLo == preHi)
+            return root;
+        
+        // The second value in preorder is the root of the left subtree
+        int leftRootVal = pre[preLo + 1];
+        
+        // Find the position of the left root in postorder
+        int leftRootIndex = postLo;
+        while (post[leftRootIndex] != leftRootVal)
+            leftRootIndex++;
+        
+        // Calculate the size of the left subtree
+        int leftSize = leftRootIndex - postLo + 1;
+        
+        // Recursively construct the left and right subtrees
+        root->left = helper(pre, preLo + 1, preLo + leftSize, post, postLo, leftRootIndex);
+        root->right = helper(pre, preLo + leftSize + 1, preHi, post, leftRootIndex + 1, postHi - 1);
+        
+        return root;
+    }
+
+    TreeNode* constructFromPrePost(vector<int>& preorder, vector<int>& postorder) {
+        int n = preorder.size();
+        return helper(preorder, 0, n - 1, postorder, 0, n - 1);
+    }
+};
