@@ -1,0 +1,22 @@
+class Solution {
+public:
+int numberOfSubstrings(string s) {
+    int n = s.length();
+    int ans = 0;
+    int freq[3] = {0, 0, 0}; // To track frequency of 'a', 'b', 'c'
+    
+    int left = 0;
+    for (int right = 0; right < n; right++) {
+        freq[s[right] - 'a']++; // Increment frequency of current character
+
+        while (freq[0] > 0 && freq[1] > 0 && freq[2] > 0) { // Check if we have at least one of each
+            ans += (n - right); // All substrings from (left, right) to (left, n-1) are valid
+            freq[s[left] - 'a']--; // Shrink the window
+            left++;
+        }
+    }
+    
+    return ans;
+}
+
+};
