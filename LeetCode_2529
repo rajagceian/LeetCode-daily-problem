@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int maximumCount(vector<int>& nums) {
+        int n = nums.size();
+        int first_pos = lower_bound(nums.begin() , nums.end(),0) - nums.begin();
+        int neg = first_pos;
+
+        while(first_pos < n && nums[first_pos] == 0){
+            first_pos++;
+        }
+        int pos = n-first_pos;
+        return max(pos , neg);
+    }
+};
