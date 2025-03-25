@@ -1,0 +1,27 @@
+class Solution {
+public:
+    bool checkValidCuts(int n, vector<vector<int>>& rectangles) {
+        int len = rectangles.size();
+        vector <vector <int>> xRange,yRange;
+        for(int i=0;i<len;i++){
+            xRange.push_back({rectangles[i][0],rectangles[i][2]});
+            yRange.push_back({rectangles[i][1],rectangles[i][3]});
+        }
+        sort(xRange.begin(),xRange.end());
+        sort(yRange.begin(),yRange.end());
+        int xSection = 0,ySection=0;
+        int end1 = xRange[0][1];
+        int end2 = yRange[0][1];
+        for(int i=1;i<len;i++){
+            if(end1 == xRange[i][0]){
+                xSection++;
+            }
+            if(end2 == yRange[i][0]){
+                ySection++;
+            }
+            end1 = max(end1,xRange[i][1]);
+            end2 = max(end2,yRange[i][1]);
+        }
+        return xSection >= 2 || ySection >= 2;
+    }
+};
