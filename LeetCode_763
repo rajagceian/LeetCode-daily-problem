@@ -1,0 +1,26 @@
+class Solution {
+public:
+    vector<int> partitionLabels(string s) {
+        int n = s.length();
+        vector<int> ans;
+        unordered_map<char, int> lastOccurrence;
+        for (int i = 0; i < n; i++) {
+            lastOccurrence[s[i]] = i;
+        }
+        int i = 0;
+        while (i < n) {
+            int j = i + 1;
+            int partitionIdx = lastOccurrence[s[i]];
+            int len = partitionIdx - i + 1;
+            while (j < partitionIdx) {
+                int idx = lastOccurrence[s[j]];
+                partitionIdx = max(partitionIdx, idx);
+                len = max(len, idx - i + 1);
+                j++;
+            }
+            ans.push_back(len);
+            i += len;
+        }
+        return ans;
+    }
+};
